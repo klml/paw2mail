@@ -66,7 +66,9 @@ class paw2mail(http.server.SimpleHTTPRequestHandler):
                 send_mail( json.loads( post_body ) )
                 self.send_response(200)
                 self._set_headers()
-            raise Exception()
+                return
+            else:
+                raise Exception()
         except:
             self.send_error(404) # 404 Not Found
             self._set_headers()
