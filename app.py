@@ -51,10 +51,10 @@ def send_mail(post_body_json):
 class paw2mail(http.server.SimpleHTTPRequestHandler):
 
     def _set_headers(self):
-        self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.send_header('Strict-Transport-Security', 'max-age=31536000')
         self.send_header('Content-Security-Policy', "script-src 'self'")
+        self.send_header('Allow', 'POST')
         self.end_headers()
 
     def do_POST(self):
@@ -64,10 +64,17 @@ class paw2mail(http.server.SimpleHTTPRequestHandler):
 
             if self.path == "/paw2mail" :
                 send_mail( json.loads( post_body ) )
+                self.send_response(200)
                 self._set_headers()
             raise Exception()
         except:
             self.send_error(404) # 404 Not Found
+            self._set_headers()
+            return
+
+    def do_GET(self):
+            self.send_error(405) # 405 Method Not Allowed
+            self._set_headers()
             return
 
 with socketserver.TCPServer(("", PORT), paw2mail) as httpd:
