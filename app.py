@@ -17,8 +17,7 @@ def send_mail(post_body_json):
         smtp_host= os.environ['smtp_host']
         smtp_port= os.environ['smtp_port']
     except:
-        print("smtp setting is missing")
-        return
+        return "smtp setting is missing"
 
     smtp_server=smtplib.SMTP(smtp_host, smtp_port)
     smtp_server.ehlo()
@@ -45,7 +44,7 @@ def send_mail(post_body_json):
     smtp_server.sendmail(smtp_from, msg['To'] , str(msg))
     smtp_server.quit()
 
-    return
+    return "mail send"
 
 
 class paw2mail(http.server.SimpleHTTPRequestHandler):
@@ -63,10 +62,12 @@ class paw2mail(http.server.SimpleHTTPRequestHandler):
             post_body       = str(self.rfile.read(content_length).decode('utf-8'))
 
             if self.path == "/paw2mail" :
-                send_mail( json.loads( post_body ) )
+                mailsend = send_mail( json.loads( post_body ))
                 self.send_response(200)
                 self._set_headers()
+                self.wfile.write(mailsend.encode("utf-8"))
                 return
+
             else:
                 raise Exception()
         except:
