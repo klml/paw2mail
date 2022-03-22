@@ -9,7 +9,7 @@ else:
     PORT        = 8080
 
 
-def send_mail(post_body_json):
+def create_smtp_server():
 
     try:
         smtp_from= os.environ['smtp_from']
@@ -26,6 +26,11 @@ def send_mail(post_body_json):
         smtp_server.login(os.environ['smtp_user'], os.environ['smtp_pass'])
     except:
         pass
+
+    return smtp_server, smtp_from
+
+
+def send_mail(post_body_json, smtp_server, smtp_from):
 
     msg = MIMEMultipart('alternative')
     msg['Subject'] = post_body_json['commonLabels']['alertname']
@@ -61,7 +66,8 @@ class paw2mail(http.server.SimpleHTTPRequestHandler):
             post_body       = str(self.rfile.read(content_length).decode('utf-8'))
 
             if self.path == "/paw2mail" :
-                mailsend = send_mail( json.loads( post_body ))
+                smtp_server, smtp_from = create_smtp_server()
+                mailsend = send_mail( json.loads( post_body ), smtp_server, smtp_from)
                 self.send_response(200)
                 self._set_headers()
                 self.wfile.write(mailsend.encode("utf-8"))
