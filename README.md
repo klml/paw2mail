@@ -14,7 +14,7 @@ spec:
     - name: bar
       rules:
         - alert: foobar_is_bigger_42
-          expr: 'lhm_count_total{item_type="/count"} > 42'
+          expr: 'example_count_total{item_type="/count"} > 42'
           labels:
             severity: Info
             paw2mail: jon@example.net
