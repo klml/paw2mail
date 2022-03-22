@@ -1,12 +1,11 @@
-import sys, os, http.server, socketserver, json, smtplib, ssl
+import os, http.server, socketserver, json, smtplib, ssl
 from json2html import *
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# python3 paw2mail.py 80
-try:
-    PORT        = int(sys.argv[1])
-except:
+if os.environ.get('port') is not None:
+    PORT        = int(os.environ['port'])
+else:
     PORT        = 8080
 
 
