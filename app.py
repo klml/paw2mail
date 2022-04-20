@@ -89,5 +89,6 @@ class paw2mail(http.server.SimpleHTTPRequestHandler):
             return
 
 with socketserver.TCPServer(("", PORT), paw2mail) as httpd:
-    print("Http Server Serving at port", PORT)
-    httpd.serve_forever()
+    if create_smtp_server() != None: # test smtp_server
+        print("Http Server Serving at port", PORT)
+        httpd.serve_forever()
