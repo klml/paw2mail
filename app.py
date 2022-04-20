@@ -1,4 +1,4 @@
-import os, http.server, socketserver, json, smtplib, ssl
+import os, logging, http.server, socketserver, json, smtplib, ssl
 from json2html import *
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -16,7 +16,8 @@ def create_smtp_server():
         smtp_host= os.environ['smtp_host']
         smtp_port= os.environ['smtp_port']
     except:
-        return "smtp setting is missing"
+        logging.error('smtp setting is missing')
+        return
 
     smtp_server=smtplib.SMTP_SSL(smtp_host, smtp_port)
     smtp_server.ehlo()
