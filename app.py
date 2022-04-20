@@ -59,11 +59,12 @@ class paw2mail(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
-        try :
-            content_length  = int(self.headers['Content-Length'])
-            post_body       = str(self.rfile.read(content_length).decode('utf-8'))
+        if self.path == "/paw2mail" :
 
-            if self.path == "/paw2mail" :
+
+            try:
+                content_length  = int(self.headers['Content-Length'])
+                post_body       = str(self.rfile.read(content_length).decode('utf-8'))
                 smtp_server, smtp_from = create_smtp_server()
                 mailsend = send_mail( json.loads( post_body ), smtp_server, smtp_from)
                 self.send_response(200)
@@ -71,9 +72,12 @@ class paw2mail(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(mailsend.encode("utf-8"))
                 return
 
-            else:
-                raise Exception()
-        except:
+            except:
+                self.send_error(500) # Internal Server Error
+                self._set_headers()
+                return
+
+        else:
             self.send_error(404) # 404 Not Found
             self._set_headers()
             return
