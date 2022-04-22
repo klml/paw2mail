@@ -3,6 +3,15 @@
 [Openshift alert receivers](https://docs.openshift.com/container-platform/4.9/monitoring/managing-alerts.html#configuring-alert-receivers_managing-alerts) can only be managed by cluster admins in the secret `alertmanager-main` in the namespace `openshift-monitoring`.  
 __paw2mail__ is a webservice that accepts alerts and sends them to an email address.
 
+## deprecated
+
+So alert routing for user-defined is in Technology Preview.
+
+> In OpenShift Container Platform 4.10, a cluster administrator can enable alert routing for user-defined projects.
+
+from [enabling-alert-routing-for-user-defined-projects](https://docs.openshift.com/container-platform/4.10/monitoring/enabling-alert-routing-for-user-defined-projects.html)
+
+So paw2mail is not needed anymore.
 
 ## config
 
