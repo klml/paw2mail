@@ -19,7 +19,7 @@ def create_smtp_server():
         logging.error('smtp setting is missing')
         return
 
-    smtp_server=smtplib.SMTP_SSL(smtp_host, smtp_port)
+    smtp_server=smtplib.SMTP(smtp_host, smtp_port)
     smtp_server.ehlo()
     try:
         smtp_server.login(os.environ['smtp_user'], os.environ['smtp_pass'])
