@@ -2,6 +2,10 @@
 
 [Openshift alert receivers](https://docs.openshift.com/container-platform/4.9/monitoring/managing-alerts.html#configuring-alert-receivers_managing-alerts) can only be managed by cluster admins in the secret `alertmanager-main` in the namespace `openshift-monitoring`.  
 __paw2mail__ is a webservice that accepts alerts and sends them to an email address.
+
+
+## config
+
 The receiver email adress is defined in `label paw2mail`:
 
 ```
