@@ -34,7 +34,10 @@ def send_mail(post_body_json, smtp_server, smtp_from):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = post_body_json['commonLabels']['alertname']
     msg['From'] = smtp_from
-    msg['To'] = post_body_json['commonLabels']['paw2mail']
+    try:
+        msg['To'] = post_body_json['commonLabels']['paw2mail']
+    except:
+        return "no paw2mail"
 
     json_html = json2html.convert(json = post_body_json, table_attributes="style=\"border:1px solid #CCCCCC;\"")
 
